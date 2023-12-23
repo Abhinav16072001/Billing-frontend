@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import "../login.css";
+import { Link } from "react-router-dom";
 
-const Login = ({ setToken }) => {
-
+const Login = (props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("dev"); // Default role is 'dev'
@@ -24,7 +25,7 @@ const Login = ({ setToken }) => {
       const token = data.access_token;
       // Save token to local storage or state
       localStorage.setItem("token", token);
-      setToken(token);
+      props.setToken(token);
       console.log(token);
     } else {
       // Handle authentication error
@@ -33,28 +34,37 @@ const Login = ({ setToken }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        placeholder="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <label>
-        Role:
-        <select value={role} onChange={(e) => setRole(e.target.value)}>
-          <option value="dev">Developer</option>
-          <option value="admin">Admin</option>
-        </select>
-      </label>
-      <button type="submit">Login</button>
-    </form>
+
+    <div className="login">
+      <div className="container">
+        <div className="login-page">
+          <div className="form">
+            <form className="login-form" onSubmit={handleSubmit}>
+              <input
+                type="text"
+                placeholder="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+              <input
+                type="password"
+                placeholder="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <select value={role} onChange={(e) => setRole(e.target.value)}>
+                <option value="dev">Developer</option>
+                <option value="admin">Admin</option>
+              </select>
+              <button>login</button>
+              <p className="message">
+                Not registered? <Link to="/signup">Create an account</Link>
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
